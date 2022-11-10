@@ -14,7 +14,7 @@ defaults:
 
 tags: ["mnist", "simple_dense_net"]
 
-run_name: cifar10_resnet32/${datamodule.transforms.name}/${now:%Y-%m-%d}_${now:%H-%M-%S}
+run_name: cifar10_resnet32/${datamodule.aug}/${now:%Y-%m-%d}_${now:%H-%M-%S}
 
 seed: 12345
 

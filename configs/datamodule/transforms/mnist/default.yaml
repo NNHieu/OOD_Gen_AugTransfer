@@ -1,0 +1,12 @@
+_target_: src.datamodules.parse_tranforms_config
+
+name: baseline
+augs: null
+transforms:
+  - _target_: albumentations.Normalize
+    mean: 
+      - 0.1307
+    std:
+      - 0.3081
+  - _target_: albumentations.pytorch.ToTensorV2
+

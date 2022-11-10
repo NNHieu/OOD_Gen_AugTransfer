@@ -5,6 +5,15 @@ from pytorch_lightning import LightningDataModule
 from torch.utils.data import ConcatDataset, DataLoader, Dataset, random_split
 from .components import CustomCIFAR10 as CIFAR10 
 import albumentations as A
+from albumentations.pytorch import ToTensorV2
+
+AUG_DICT = {
+    'none': None,
+    'blur': A.GaussianBlur(blur_limit=(3,7), p=0.5),
+    'gaussian_noise': A.GaussNoise(var_limit=(10, 50), p=0.5),
+    'rotation': A.Rotate(limit=30),
+    'brightness_constrast': A.RandomBrightnessContrast(brightness_limit=0.2, contrast_limit=0.2),
+}
 
 class CIFAR10DataModule(LightningDataModule):
     """Example of LightningDataModule for CIFAR10 dataset.
@@ -37,7 +46,7 @@ class CIFAR10DataModule(LightningDataModule):
     def __init__(
         self,
         data_dir: str = "data/",
-        transforms = None,
+        aug = 'none',
         train_val_test_split: Tuple[int, int, int] = (55_000, 5_000, 10_000),
         batch_size: int = 64,
         num_workers: int = 0,
@@ -50,7 +59,17 @@ class CIFAR10DataModule(LightningDataModule):
         self.save_hyperparameters(logger=False)
 
         # data transformations
-        self.transforms = transforms
+        self.transforms = A.Compose([
+            AUG_DICT[aug],
+            A.Normalize(mean=(0.49139968, 0.48215827, 0.44653124), 
+                        std=(0.24703233, 0.24348505, 0.26158768)),
+            ToTensorV2(),
+        ])
+        # self.val_transforms = A.Compose([
+        #     A.Normalize(mean=(0.49139968, 0.48215827, 0.44653124), 
+        #                 std=(0.24703233, 0.24348505, 0.26158768)),
+        #     ToTensorV2(),
+        # ])
 
         self.data_train: Optional[Dataset] = None
         self.data_val: Optional[Dataset] = None

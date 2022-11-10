@@ -1,0 +1,7 @@
+defaults:
+  - default.yaml
+
+augs:
+  - _target_: albumentations.GaussNoise
+
+name: gaussian_noise

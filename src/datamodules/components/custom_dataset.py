@@ -39,6 +39,7 @@ class CustomMNIST(MNIST):
         return os.path.join(self.root, "MNIST", "raw")
 
 class CustomCIFAR10(CIFAR10):
+
     def __getitem__(self, index: int) -> Tuple[Any, Any]:
         """
         Args:

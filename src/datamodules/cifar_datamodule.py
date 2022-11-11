@@ -59,12 +59,14 @@ class CIFAR10DataModule(LightningDataModule):
         self.save_hyperparameters(logger=False)
 
         # data transformations
-        self.transforms = A.Compose([
-            AUG_DICT[aug],
+        aug = AUG_DICT[aug]
+        transforms = [
             A.Normalize(mean=(0.49139968, 0.48215827, 0.44653124), 
                         std=(0.24703233, 0.24348505, 0.26158768)),
             ToTensorV2(),
-        ])
+        ] 
+        if aug is not None: transforms.insert(0, aug)
+        self.transforms = A.Compose(transforms)
         # self.val_transforms = A.Compose([
         #     A.Normalize(mean=(0.49139968, 0.48215827, 0.44653124), 
         #                 std=(0.24703233, 0.24348505, 0.26158768)),

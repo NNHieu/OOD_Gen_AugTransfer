@@ -13,6 +13,9 @@ AUG_DICT = {
     'gaussian_noise': A.GaussNoise(var_limit=(10, 50), p=0.5),
     'rotation': A.Rotate(limit=30),
     'brightness_constrast': A.RandomBrightnessContrast(brightness_limit=0.2, contrast_limit=0.2),
+    'rgb_shift': A.RGBShift(r_shift_limit=15, g_shift_limit=15, b_shift_limit=15, p=0.5),
+    'shift': A.ShiftScaleRotate(shift_limit=0.05, scale_limit=0, rotate_limit=0, p=0.5),
+    'scale': A.RandomScale(scale_limit=0.1, p=0.5),
 }
 
 class CIFAR10DataModule(LightningDataModule):
@@ -47,7 +50,7 @@ class CIFAR10DataModule(LightningDataModule):
         self,
         data_dir: str = "data/",
         aug = 'none',
-        train_val_test_split: Tuple[int, int, int] = (55_000, 5_000, 10_000),
+        train_val_test_split: Tuple[int, int, int] = (45_000, 5_000, 10_000),
         batch_size: int = 64,
         num_workers: int = 0,
         pin_memory: bool = False,

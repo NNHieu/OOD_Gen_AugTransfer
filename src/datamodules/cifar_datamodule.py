@@ -15,7 +15,8 @@ AUG_DICT = {
     'brightness_constrast': A.RandomBrightnessContrast(brightness_limit=0.2, contrast_limit=0.2),
     'rgb_shift': A.RGBShift(r_shift_limit=15, g_shift_limit=15, b_shift_limit=15, p=0.5),
     'shift': A.ShiftScaleRotate(shift_limit=0.05, scale_limit=0, rotate_limit=0, p=0.5),
-    'scale': A.RandomScale(scale_limit=0.1, p=0.5),
+    # 'scale': A.RandomScale(scale_limit=0.1, p=0.5),
+    'perspective': A.Perspective(scale=(0.05, 0.1), p=0.5),
 }
 
 class CIFAR10DataModule(LightningDataModule):

@@ -70,7 +70,7 @@ def evaluate(cfg: DictConfig) -> Optional[Tuple[dict, dict]]:
         seed_everything(cfg.seed, workers=True)
 
     metric_df, metric_file, train_cfg = get_config(cfg.ckpt_path)
-    if cfg.seed in metric_df[metric_df["test_aug"] == cfg.datamodule.transforms.name]["eval_seed"].unique():
+    if cfg.seed in metric_df[metric_df["test_aug"] == cfg.datamodule.aug]["eval_seed"].unique():
         log.info(f"Already evaluated. Skipping !!!")
         return
 
@@ -108,8 +108,8 @@ def evaluate(cfg: DictConfig) -> Optional[Tuple[dict, dict]]:
     
     for k,v in metric_dict.items():
         metric_dict[k] = v.item()
-    metric_dict["test_aug"] = cfg.datamodule.transforms.name
-    metric_dict["train_aug"] = train_cfg["datamodule"]["transforms"]["name"]
+    metric_dict["test_aug"] = cfg.datamodule.aug
+    metric_dict["train_aug"] = train_cfg["datamodule"]["aug"]
     metric_dict["eval_seed"] = cfg.seed
     metric_dict["train_seed"] = train_cfg["seed"]
     metric_df = pd.concat([metric_df, pd.Series(metric_dict).to_frame().T], ignore_index=True)

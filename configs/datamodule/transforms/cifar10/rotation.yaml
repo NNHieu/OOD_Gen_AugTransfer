@@ -1,8 +1,0 @@
-defaults:
-  - default.yaml
-
-augs:
-  - _target_: albumentations.Rotate
-    limit: 30
-
-name: rotation

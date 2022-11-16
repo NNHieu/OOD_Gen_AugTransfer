@@ -1,9 +1,0 @@
-defaults:
-  - default.yaml
-
-augs:
-  - _target_: albumentations.Blur
-    blur_limit: 7
-    p: 0.5
-
-name: blur

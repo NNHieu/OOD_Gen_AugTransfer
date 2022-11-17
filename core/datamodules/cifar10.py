@@ -62,11 +62,11 @@ class Cifar10DM(LightningDataModule):
     def _parse_augmentation(self, augmentation):
         transform = []
         if augmentation is not None:
-            if isinstance(augmentation, str):
+            if isinstance(augmentation, str) and augmentation != 'none':
                 transform.append(AUG_DICT[augmentation])
             else:
                 for a in augmentation:
-                    transform.append(AUG_DICT[a])
+                    if a != "none": transform.append(AUG_DICT[a])
         transform.append(A.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)))
         transform.append(ToTensorV2())
         return A.Compose(transform)

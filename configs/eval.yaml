@@ -1,0 +1,24 @@
+# @package _global_
+
+defaults:
+  - _self_
+  - paths: default.yaml
+  - hydra: default.yaml
+  - dmt/datamodule: ???
+  - dmt/model: ???
+  - dmt/trainer: eval.yaml
+  - optional local: default.yaml
+
+  # debugging config (enable through command line, e.g. `python train.py debug=default)
+  - debug: null
+
+# seed for random number generators in pytorch, numpy and python.random
+seed: ???
+
+# Output directory is generated dynamically on each run
+# following the pattern ${paths.log_dir}/${task_name}/runs/${run_name}
+task_name: eval
+run_name: ${now:%Y-%m-%d}_${now:%H-%M-%S}
+
+run_dir_pattern: ???
+

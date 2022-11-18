@@ -10,8 +10,8 @@ import albumentations as A
 from albumentations.pytorch import ToTensorV2
 
 AUG_DICT = {
-    'none': None,
     'blur': A.GaussianBlur(blur_limit=(3,7), p=0.5),
+    'none': None,
     'gaussian_noise': A.GaussNoise(var_limit=(10, 50), p=0.5),
     'rotation': A.Rotate(limit=30),
     'brightness_constrast': A.RandomBrightnessContrast(brightness_limit=0.2, contrast_limit=0.2),
@@ -61,12 +61,12 @@ class Cifar10DM(LightningDataModule):
     
     def _parse_augmentation(self, augmentation):
         transform = []
-        if augmentation is not None:
-            if isinstance(augmentation, str) and augmentation != 'none':
-                transform.append(AUG_DICT[augmentation])
-            else:
-                for a in augmentation:
-                    if a != "none": transform.append(AUG_DICT[a])
+        if augmentation is not None: 
+            if isinstance(augmentation, str): augmentation = [augmentation]
+            for a in augmentation:
+                if a != 'none':
+                    transform.append(AUG_DICT[a]) 
+                    
         transform.append(A.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)))
         transform.append(ToTensorV2())
         return A.Compose(transform)

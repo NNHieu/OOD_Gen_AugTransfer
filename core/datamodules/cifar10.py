@@ -23,7 +23,7 @@ AUG_DICT = {
     'crop': A.Compose([
         A.PadIfNeeded(36, 36),
         A.RandomCrop(32, 32, p=1.),
-    ]),
+    ], p=0.5),
 }
 
 
@@ -108,7 +108,7 @@ class Cifar10DM(LightningDataModule):
                           )
 
     def test_dataloader(self) -> EVAL_DATALOADERS:
-        return DataLoader(self.data_val, 
+        return DataLoader(self.data_test, 
                           batch_size=self.hparams.test_bs, 
                           shuffle=False,
                           pin_memory=self.hparams.pin_memory,
